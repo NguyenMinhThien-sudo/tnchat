@@ -1,0 +1,48 @@
+import React from "react";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import Add from "../img/addAvatar.png";
+
+const Register = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const displayName = e.target[0].value;
+    const email = e.target[1].value;
+    const password = e.target[2].value;
+    const file = e.target[3].value;
+
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed up
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+  };
+  return (
+    <div className="formContainer">
+      <div className="formWrapper">
+        <span className="logo">TNChat</span>
+        <span className="title">Đăng Ký</span>
+        <form onSubmit={handleSubmit}>
+          <input required type="text" placeholder="Tên của bạn" />
+          <input type="email" placeholder="Email" />
+          <input type="password" placeholder="Mật khẩu" />
+          <input type="file" id="file" />
+          <label htmlFor="file">
+            <img src={Add} alt="" />
+            <span>Thêm ảnh</span>
+          </label>
+          <button>Đăng ký</button>
+        </form>
+        <p>Bạn có tài khoản chưa? Đăng nhập ngay</p>
+      </div>
+    </div>
+  );
+};
+
+export default Register;
